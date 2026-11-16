@@ -77,6 +77,8 @@ li{display:flex;gap:.75rem;align-items:baseline;padding:.6rem .75rem;border:1px 
 a{color:var(--mint)}
 code{font-family:ui-monospace,monospace;background:var(--code);padding:.1rem .4rem;border-radius:6px}
 pre{margin:.6rem 0 0;padding:.75rem;border-radius:10px;background:var(--code);overflow-x:auto;font-size:.85rem}
+.back{display:inline-flex;align-items:center;min-height:44px;margin-top:1.25rem;padding:.5rem 1rem;border-radius:10px;background:var(--mint);color:#062a20;font-weight:700;text-decoration:none}
+.back:hover{background:#6ee7c2}
 </style>
 </head>
 <body>
@@ -102,6 +104,19 @@ pre{margin:.6rem 0 0;padding:.75rem;border-radius:10px;background:var(--code);ov
 <pre>curl -X POST &lt;this preview URL&gt;/api/notes \\
   -H "content-type: application/json" \\
   -d '{"text":"Reviewed on this PR"}'</pre>
+<a class="back" id="back" href="/board">← Back to board</a>
+<script>
+// Opened from Mayfly's Admin page (link adds ?mayfly_from=admin, or the referrer is /admin)? Go back there instead.
+(function () {
+  var a = document.getElementById("back");
+  try {
+    var fromAdmin = new URLSearchParams(location.search).get("mayfly_from") === "admin";
+    var r = document.referrer ? new URL(document.referrer) : null;
+    if (r && r.host === location.host && r.pathname.indexOf("/admin") === 0) fromAdmin = true;
+    if (fromAdmin) { a.href = "/admin"; a.textContent = "← Back to admin"; }
+  } catch (e) {}
+})();
+</script>
 </div>
 </main>
 </body>
